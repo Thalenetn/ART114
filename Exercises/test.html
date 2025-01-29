@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+ html,
+ body {
+  background-color: black;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+#star-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#star-container .star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: white;
+  border-radius: 50%; /* Make stars circular */
+  animation: twinkle 1s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+h2 {
+    color: white;
+}
+p {
+    color: white;
+}
+</style>
+
+<h2>Javascript!!!!?</h2>
+
+<p id="demo">Hello</p>
+<div id="star-container"></div>
+  <script src="script.js"></script>
+
+<button type="button" onclick='document.getElementById("demo").innerHTML = "Bye!"'>Click Me!</button>
+<script>
+const starContainer = document.getElementById("star-container");
+
+function createStars() {
+  const numStars = 250;
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement("div");
+    star.classList.add("star");
+
+    // Position stars randomly within the container
+    const randomX = Math.random() * starContainer.offsetWidth;
+    const randomY = Math.random() * starContainer.offsetHeight;
+    star.style.left = randomX + "px";
+    star.style.top = randomY + "px";
+
+    starContainer.appendChild(star);
+  }
+}
+createStars();
+
+starContainer.addEventListener("mousemove", (event) => {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  // Move stars near the mouse
+  const stars = document.querySelectorAll("#star-container .star");
+  stars.forEach((star) => {
+    const starX = parseInt(star.style.left);
+    const starY = parseInt(star.style.top);
+
+    // Calculate distance between star and mouse
+    const distanceX = starX - mouseX;
+    const distanceY = starY - mouseY;
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+    // Move only stars within a certain radius
+    const moveRadius = 150; // Adjust this value to control the affected area
+    if (distance <= moveRadius) {
+      const speed = 0.05; // Adjust speed as desired
+      star.style.left = (starX + distanceX * speed) + "px";
+      star.style.top = (starY + distanceY * speed) + "px";
+    }
+  });
+});
+</script>
+</body>
+</html>
